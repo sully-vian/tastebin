@@ -78,3 +78,4 @@ app.get("/:id/duplicate", (req, res) => {
 
 const PORT = 3000;
 app.listen(PORT); // server that's running on port PORT
+console.log(`Server running at http://localhost:${PORT}`);
