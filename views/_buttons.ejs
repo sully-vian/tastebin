@@ -1,0 +1,17 @@
+<!-- partial view imported into other views -->
+<div class="buttons-wrapper">
+    <a href="/" class="logo">
+        <img class="logo-img" src="/logo-v1.webp" alt="tasteBin">
+    </a>
+    <div class="buttons">
+        <a class="button" href="/new">New</a>
+
+        <% if (locals.id != null) { %>
+            <a class="button" href="/<%= locals.id %>/duplicate">Duplicate</a>
+        <% } %>
+
+        <% if (locals.canSave) { %>
+            <button class="button" type="submit">Save</button>
+        <% } %>
+    </div>
+</div>

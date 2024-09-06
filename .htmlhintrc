@@ -1,0 +1,7 @@
+{
+  "ejs": {
+	"rules": {
+	  "attr-value-double-quotes": false
+	}
+  }
+}
