@@ -1,17 +1,24 @@
 const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const os = require("os");
+
 const app = express();
 app.set("view engine", "ejs"); // set view engine type
 app.use(express.static("public")) // where static files are
 app.use(express.urlencoded({ extended: true })); // to parse the incoming request sent as form
 
-const fs = require("fs");
-const path = require("path");
 
 // Ensure texts directory exists (if not, create)
 const textsDir = path.join(__dirname, "texts");
 if (!fs.existsSync(textsDir)) {
     fs.mkdirSync(textsDir);
 }
+
+// serve the favicon
+app.get("/favicon.ico", (req, res) => {
+    res.sendFile(path.join(__dirname, "./public/logo-v1.webp"));
+});
 
 // handle get request for "/" route
 // render the code-display view with "code"
@@ -24,7 +31,7 @@ Here is the place for you to put your tastiest code snippets`
 
 // route for creating a new document
 app.get("/new", (req, res) => {
-    const value = "Input here your code...";
+    const value = "";
     res.render("new", { value });
 });
 
@@ -71,11 +78,25 @@ app.get("/:id/duplicate", (req, res) => {
             console.log(err);
             res.status(404).send("Document not found");
         } else {
-            res.render("new", {value: data});
+            res.render("new", { value: data });
         }
     });
 });
 
+// get the local IP address
+function getLocalIpAddress() {
+    const ifaces = os.networkInterfaces();
+    for (const name of Object.keys(ifaces)) {
+        for (const iface of ifaces[name]) {
+            if (iface.family === "IPv4" && !iface.internal) {
+                return iface.address;
+            }
+        }
+    }
+}
+
 const PORT = 3000;
-app.listen(PORT); // server that's running on port PORT
-console.log(`Server running at http://localhost:${PORT}`);
+const LOCAL_IP = getLocalIpAddress();// "192.168.1.84"
+app.listen(PORT, LOCAL_IP, () => {
+    console.log(`Server running at http://${LOCAL_IP}:${PORT}`);
+}); // server that's running on port PORT
