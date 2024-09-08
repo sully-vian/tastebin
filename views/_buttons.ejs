@@ -8,6 +8,7 @@
 
         <% if (locals.id != null) { %>
             <a class="button" href="/<%= locals.id %>/duplicate">Duplicate</a>
+            <button class="button" onclick="copyToClipboard()">Share</button>
         <% } %>
 
         <% if (locals.canSave) { %>
@@ -15,3 +16,14 @@
         <% } %>
     </div>
 </div>
+
+<script>
+    function copyToClipboard() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            alert('Copied to clipboard:\n' + url);
+        }).catch((err) => {
+            console.error('Failed to copy: ', err);
+        });
+    }
+</script>

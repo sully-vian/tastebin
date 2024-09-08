@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
+const https = require("https");
 
 const app = express();
 app.set("view engine", "ejs"); // set view engine type
@@ -95,8 +96,14 @@ function getLocalIpAddress() {
     }
 }
 
+// read the SSL certificate and key
+const options = {
+    key: fs.readFileSync("server.key"),
+    cert: fs.readFileSync("server.cert"),
+};
+
 const PORT = 3000;
-const LOCAL_IP = getLocalIpAddress();// "192.168.1.84"
-app.listen(PORT, LOCAL_IP, () => {
-    console.log(`Server running at http://${LOCAL_IP}:${PORT}`);
+const LOCAL_IP = getLocalIpAddress();
+https.createServer(options, app).listen(PORT, LOCAL_IP, () => {
+    console.log(`Server running at https://${LOCAL_IP}:${PORT}`);
 }); // server that's running on port PORT
