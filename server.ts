@@ -18,7 +18,7 @@ if (!existsSync(textsDir)) {
 
 // serve the favicon
 app.get("/favicon.ico", (_: Request, res: Response) => {
-    res.sendFile(join(__dirname, "./public/logo-v1.webp"));
+    res.sendFile(join(__dirname, "./public/logo.png"));
 });
 
 // handle get request for "/" route
